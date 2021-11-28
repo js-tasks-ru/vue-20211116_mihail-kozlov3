@@ -33,7 +33,21 @@ const emails = [
 createApp({
   data() {
     return {
-      emails: emails
+      search: null
+      , emails: emails
     };
   }
-}).mount("app");
+
+  , computed: {
+    markedEmails() {
+      let search = this.search ? this.search.toLowerCase() : null;
+
+      return this.emails.map(e => {
+        return {
+          email: e
+          , class: e.toLowerCase().indexOf(search) >= 0 ? "marked" : ""
+        };
+      });
+    }
+  }
+}).mount("#app");
