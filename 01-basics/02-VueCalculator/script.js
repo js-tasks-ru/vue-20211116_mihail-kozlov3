@@ -1,30 +1,44 @@
 import { createApp } from './vendor/vue.esm-browser.js';
-//import { Vue } from './vendor/vue.esm-browser.js';
-
-//Vue.config.devtools = true
 
 // Создайте Vue приложение
-const app = createApp({
+createApp({
     data() {
         return {
-            firstVal: 0
+              firstVal: 0
             , secondVal: 0
-            , result: 0
+            , operation: null
+            , result : 0
         };
     }
-    , methods: {
-        add() {
-            this.result = this.firstVal + this.secondVal;
-            console.log(this.firstVal, this.secondVal, this.result);
+
+    , methods: { 
+        updateResult() {
+            switch (this.operation) {
+                case "sum":
+                    this.result =  this.firstVal + this.secondVal;
+                break;
+                case "subtract":
+                    this.result =  this.firstVal - this.secondVal;
+                break;
+                case "multiply":
+                    this.result =  this.firstVal * this.secondVal;
+                break;
+                case "divide":
+                    this.result =  this.firstVal / this.secondVal;
+                break;
+            }
         }
-        , sub() {
-            this.result = this.firstVal - this.secondVal;
+    }
+
+    , watch: {
+        operation() {
+            this.updateResult();
         }
-        , mul() {
-            this.result = this.firstVal * this.secondVal;
+        , firstVal() {
+            this.updateResult();
         }
-        , div() {
-            this.result = this.firstVal / this.secondVal;
+        , secondVal() {
+            this.updateResult();
         }
     }
 }).mount("#app");
