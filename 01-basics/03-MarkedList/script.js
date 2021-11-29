@@ -45,7 +45,7 @@ createApp({
       return this.emails.map(e => {
         return {
           email: e
-          , class: e.toLowerCase().indexOf(search) >= 0 ? "marked" : ""
+          , isMarked: e.toLowerCase().indexOf(search) >= 0
         };
       });
     }
