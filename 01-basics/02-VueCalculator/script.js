@@ -7,38 +7,28 @@ createApp({
               firstVal: 0
             , secondVal: 0
             , operation: null
-            , result : 0
         };
     }
 
-    , methods: { 
-        updateResult() {
+    , computed: {
+        result() {
             switch (this.operation) {
                 case "sum":
-                    this.result =  this.firstVal + this.secondVal;
+                    return this.firstVal + this.secondVal;
                 break;
                 case "subtract":
-                    this.result =  this.firstVal - this.secondVal;
+                    return this.firstVal - this.secondVal;
                 break;
                 case "multiply":
-                    this.result =  this.firstVal * this.secondVal;
+                    return this.firstVal * this.secondVal;
                 break;
                 case "divide":
-                    this.result =  this.firstVal / this.secondVal;
+                    return this.firstVal / this.secondVal;
                 break;
             }
+
+            return 0;
         }
     }
 
-    , watch: {
-        operation() {
-            this.updateResult();
-        }
-        , firstVal() {
-            this.updateResult();
-        }
-        , secondVal() {
-            this.updateResult();
-        }
-    }
 }).mount("#app");
