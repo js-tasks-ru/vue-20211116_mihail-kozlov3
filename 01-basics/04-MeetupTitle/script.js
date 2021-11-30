@@ -15,3 +15,5 @@ function fetchMeetupById(meetupId) {
 }
 
 // Требуется создать Vue приложение
+createApp({
+}).mount("#app")
