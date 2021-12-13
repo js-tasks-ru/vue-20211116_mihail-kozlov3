@@ -20,11 +20,10 @@ export default defineComponent({
 
   computed: {
     LongDate() {
-      const displayDate = new Date(this.date).toLocaleString(navigator.language, {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      });
+      const displayDate = new Date(this.date).toLocaleString(
+        navigator.language, 
+        {year: 'numeric', month: 'long',day: 'numeric',}
+      );
 
       return displayDate;
     }, 
@@ -32,7 +31,6 @@ export default defineComponent({
     ShortDate() {
       return new Date(this.date).toISOString().substr(0, 10);
     }, 
-
   },
 
   template: `
