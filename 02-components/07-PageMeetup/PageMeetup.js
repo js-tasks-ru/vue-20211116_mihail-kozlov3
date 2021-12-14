@@ -42,12 +42,6 @@ export default defineComponent({
     }
   },
 
-  computed: {
-    CanShowMeetup() {
-      return this.meetup && this.state === "loaded";
-    },
-  },
-
   template: `
     <div class="page-meetup">
       <meetup-view v-if="state=='loaded'" :meetup="meetup" />
