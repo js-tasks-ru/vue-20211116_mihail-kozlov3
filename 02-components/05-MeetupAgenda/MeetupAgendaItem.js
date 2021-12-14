@@ -30,7 +30,7 @@ export default defineComponent({
       </div>
       <div class="agenda-item__col">{{ MeetTime }}</div>
       <div class="agenda-item__col">
-        <h3 class="agenda-item__title">{{ Title }}</h3>
+        <h3 class="agenda-item__title" v-html="Title"></h3>
         <p v-if="agendaItem.speaker" class="agenda-item__talk">
           <span>{{ agendaItem.speaker }}</span>
           <span class="agenda-item__dot"></span>
