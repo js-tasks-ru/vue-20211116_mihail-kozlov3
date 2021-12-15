@@ -3,7 +3,7 @@ import UiContainer from './UiContainer.js';
 import UiAlert from './UiAlert.js';
 import { fetchMeetupById } from './meetupService.js';
 
-import MeetupView from "../06-MeetupView/MeetupView.js";
+import MeetupView from '../06-MeetupView/MeetupView.js';
 
 export default defineComponent({
   name: 'PageMeetup',
@@ -17,15 +17,15 @@ export default defineComponent({
   props: {
     meetupId: {
       type: Number,
-      required: true
-    }
+      required: true,
+    },
   },
 
   data() {
     return {
       meetup: null,
       error: null,
-      state: "loading" // "error", "loaded"
+      state: 'loading', // "error", "loaded"
     };
   },
 
@@ -33,13 +33,19 @@ export default defineComponent({
     meetupId: {
       immediate: true,
       handler(meetupId) {
-        this.state = "loading";
+        this.state = 'loading';
 
         fetchMeetupById(meetupId)
-          .then(response => {this.meetup = response; this.state = "loaded";})
-          .catch(error => {this.error = error; this.state = "error"});
-      }
-    }
+          .then((response) => {
+            this.meetup = response;
+            this.state = 'loaded';
+          })
+          .catch((error) => {
+            this.error = error;
+            this.state = 'error';
+          });
+      },
+    },
   },
 
   template: `
