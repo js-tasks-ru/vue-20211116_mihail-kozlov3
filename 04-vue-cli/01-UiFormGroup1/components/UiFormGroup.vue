@@ -1,8 +1,7 @@
 <template>
-  <div class="form-group" :class="inline && 'form-group_inline'">
-    <slot>
-      <label v-if="label" class="form-group__label">{{ label }}</label>
-    </slot>
+  <div class="form-group" :class="{ 'form-group_inline': inline }">
+    <label v-if="label" class="form-group__label">{{ label }}</label>
+    <slot />
   </div>
 </template>
 

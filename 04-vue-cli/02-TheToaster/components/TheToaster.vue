@@ -1,6 +1,6 @@
 <template>
   <div class="toasts">
-    <ui-toast v-for="toast in toastList" :key="toast.id" :toast="toast" @closeToast="closeToast" />
+    <ui-toast v-for="toast in toastList" :key="toast.id" :toast="toast" @close="closeToast" />
   </div>
 </template>
 
@@ -23,15 +23,15 @@ export default {
 
   methods: {
     error(message) {
-      this.addToast(message, 'error');
+      this.addToast(message, 'error', 5);
     },
 
     success(message) {
-      this.addToast(message, 'success');
+      this.addToast(message, 'success', 5);
     },
 
-    addToast(message, type) {
-      this.toastList.push({ id: `toast-${this.$options.toastId}`, message, type, lifeTime: 5 });
+    addToast(message, type, lifeTime) {
+      this.toastList.push({ id: `toast-${this.$options.toastId}`, message, type, lifeTime: lifeTime });
       this.$options.toastId++;
     },
 

@@ -38,7 +38,7 @@ export default {
     },
   },
 
-  emits: ['closeToast'],
+  emits: ['close'],
 
   computed: {
     toastClass() {
@@ -51,7 +51,7 @@ export default {
 
   created() {
     setTimeout(() => {
-      this.$emit('closeToast', this.toast.id);
+      this.$emit('close', this.toast.id);
     }, this.toast.lifeTime * 1000);
   },
 };
