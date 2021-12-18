@@ -25,6 +25,7 @@
       </button>
     </div>
   </div>
+
   <select v-show="false" :value="modelValue" @change="$emit('update:modelValue', $event.target.value)">
     <option v-for="item in options" :key="item" :value="item.value">{{ item.text }}</option>
   </select>
@@ -71,8 +72,7 @@ export default {
       return this.options.find((item) => this.modelValue == item.value);
     },
     optionsHasIcon() {
-      const ret = this.options.some((item) => !!item.icon);
-      return ret;
+      return this.options.some((item) => !!item.icon);
     },
   },
 
