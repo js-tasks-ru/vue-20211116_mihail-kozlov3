@@ -1,21 +1,34 @@
 <template>
-  <div class="dropdown dropdown_opened">
-    <button type="button" class="dropdown__toggle dropdown__toggle_icon">
-      <ui-icon icon="tv" class="dropdown__icon" />
-      <span>Title</span>
+  <div class="dropdown" :class="{ dropdown_opened: showedList }">
+    <button
+      type="button"
+      class="dropdown__toggle"
+      :class="{ dropdown__toggle_icon: optionsHasIcon }"
+      @click="switchList"
+    >
+      <ui-icon v-if="selectedIcon" :icon="selectedIcon" class="dropdown__icon" />
+      <span>{{ selectedTitle }}</span>
     </button>
 
-    <div class="dropdown__menu" role="listbox">
-      <button class="dropdown__item dropdown__item_icon" role="option" type="button">
-        <ui-icon icon="tv" class="dropdown__icon" />
-        Option 1
-      </button>
-      <button class="dropdown__item dropdown__item_icon" role="option" type="button">
-        <ui-icon icon="tv" class="dropdown__icon" />
-        Option 2
+    <div v-show="showedList" class="dropdown__menu" role="listbox">
+      <button
+        v-for="item in options"
+        :key="item"
+        class="dropdown__item"
+        :class="{ dropdown__item_icon: optionsHasIcon }"
+        role="option"
+        type="button"
+        @click="selectValue(item.value)"
+      >
+        <ui-icon v-if="item.icon" :icon="item.icon" class="dropdown__icon" />
+        {{ item.text }}
       </button>
     </div>
   </div>
+
+  <select v-show="false" :value="modelValue" @change="$emit('update:modelValue', $event.target.value)">
+    <option v-for="item in options" :key="item" :value="item.value">{{ item.text }}</option>
+  </select>
 </template>
 
 <script>
@@ -25,6 +38,54 @@ export default {
   name: 'UiDropdown',
 
   components: { UiIcon },
+
+  props: {
+    options: {
+      type: Array,
+      required: true,
+    },
+    modelValue: {
+      type: String,
+    },
+    title: {
+      type: String,
+      required: true,
+    },
+  },
+
+  emits: ['update:modelValue'],
+
+  data() {
+    return {
+      showedList: false,
+    };
+  },
+
+  computed: {
+    selectedTitle() {
+      return this.currentOption ? this.currentOption.text : this.title;
+    },
+    selectedIcon() {
+      return this.currentOption ? this.currentOption.icon : null;
+    },
+    currentOption() {
+      return this.options.find((item) => this.modelValue == item.value);
+    },
+    optionsHasIcon() {
+      return this.options.some((item) => !!item.icon);
+    },
+  },
+
+  methods: {
+    switchList() {
+      this.showedList = !this.showedList;
+    },
+
+    selectValue(value) {
+      this.$emit('update:modelValue', value);
+      this.switchList();
+    },
+  },
 };
 </script>
 
