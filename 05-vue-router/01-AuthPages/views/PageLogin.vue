@@ -38,7 +38,8 @@ export default {
 
   methods: {
     handleSubmit() {
-      // Требуется обработать сабмит формы
+      let path = this.$route.query.from ? this.$route.query.from : '/';
+      this.$router.push(path);
     },
   },
 };
