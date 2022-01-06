@@ -11,8 +11,6 @@ const class_of_variant = {
   danger: 'button_danger',
 };
 
-const default_variant = 'secondary';
-
 export default {
   name: 'UiButton',
 
@@ -23,6 +21,7 @@ export default {
     },
     variant: {
       type: String,
+      default: 'secondary',
     },
     block: {
       type: Boolean,
@@ -31,7 +30,7 @@ export default {
 
   computed: {
     buttonClass() {
-      return class_of_variant[this.variant || default_variant];
+      return class_of_variant[this.variant];
     },
 
     buttonType() {
