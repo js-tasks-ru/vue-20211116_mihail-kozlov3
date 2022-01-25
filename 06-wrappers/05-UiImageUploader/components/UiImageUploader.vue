@@ -1,15 +1,107 @@
 <template>
   <div class="image-uploader">
-    <label class="image-uploader__preview image-uploader__preview-loading" style="--bg-url: url('/link.jpeg')">
-      <span class="image-uploader__text">Загрузить изображение</span>
-      <input type="file" accept="image/*" class="image-uploader__input" />
+    <label
+      class="image-uploader__preview"
+      :class="{ 'image-uploader__preview-loading': isLoading }"
+      :style="{ '--bg-url': `url(${loaderImg})` }"
+      @click="removeImage"
+    >
+      <span class="image-uploader__text">{{ loaderLabel }}</span>
+      <input
+        ref="input"
+        type="file"
+        accept="image/*"
+        class="image-uploader__input"
+        v-bind="$attrs"
+        @change="onUploadFile"
+      />
     </label>
   </div>
 </template>
 
 <script>
+const LoaderLabels = {
+  ready: 'Загрузить изображение',
+  loading: 'Загрузка...',
+  loaded: 'Удалить изображение',
+};
+
+const defaultImage = '/link.jpeg';
+
 export default {
   name: 'UiImageUploader',
+
+  inheritAttrs: false,
+
+  props: {
+    preview: String,
+    uploader: Function,
+  },
+
+  emits: ['select', 'upload', 'error', 'remove'],
+
+  data() {
+    return {
+      state: 'ready',
+      loaderImg: defaultImage,
+    };
+  },
+
+  computed: {
+    loaderLabel() {
+      return LoaderLabels[this.state];
+    },
+    isLoading() {
+      return this.state === 'loading';
+    },
+  },
+
+  watch: {
+    preview: {
+      immediate: true,
+      handler(val) {
+        this.state = val ? 'loaded' : 'ready';
+      },
+    },
+  },
+
+  methods: {
+    onUploadFile($event) {
+      const that = this;
+      const file = $event.target.files[0];
+
+      this.$emit('select', file);
+      this.state = 'loading';
+
+      if (this.uploader) {
+        this.uploader(file).then(
+          function (result) {
+            that.state = 'loaded';
+            that.loaderImg = result.image;
+            that.$emit('upload', result);
+          },
+          function (error) {
+            that.state = 'ready';
+            that.$emit('error', error);
+            that.$refs.input.value = null;
+          },
+        );
+      } else {
+        this.loaderImg = URL.createObjectURL(file);
+        this.state = 'loaded';
+      }
+    },
+
+    removeImage($event) {
+      if (this.state === 'loaded') {
+        $event.preventDefault();
+        this.$emit('remove');
+        this.$refs.input.value = null;
+        this.state = 'ready';
+        this.loaderImg = defaultImage;
+      }
+    },
+  },
 };
 </script>
 
