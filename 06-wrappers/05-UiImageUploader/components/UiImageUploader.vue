@@ -94,6 +94,7 @@ export default {
 
     removeImage($event) {
       if (this.state === 'loaded') {
+        $event.preventDefault();
         this.$emit('remove');
         this.$refs.input.value = null;
         this.state = 'ready';
