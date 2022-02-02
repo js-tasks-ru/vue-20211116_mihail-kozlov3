@@ -32,8 +32,20 @@ export default {
   emits: ['update:modelValue'],
 
   computed: {
-    dtFormat() {
-      switch (this.type) {
+    modelValueProxy: {
+      set(val) {
+        const newVal = this.$refs['input-date'].$refs.input.valueAsNumber;
+        this.$emit('update:modelValue', newVal);
+      },
+      get() {
+        return moment(this.modelValue).utc().format(this.getDTFormat(this.type));
+      },
+    },
+  },
+
+  methods: {
+    getDTFormat(FormatType) {
+      switch (FormatType) {
         case 'datetime-local':
           return 'YYYY-MM-DDTHH:mm';
         case 'date':
@@ -43,16 +55,6 @@ export default {
       const step = this.$attrs.step;
       if (step && +step % 60 !== 0) return 'HH:mm:ss';
       return 'HH:mm';
-    },
-
-    modelValueProxy: {
-      set(val) {
-        const newVal = this.$refs['input-date'].$refs.input.valueAsNumber;
-        this.$emit('update:modelValue', newVal);
-      },
-      get() {
-        return moment(this.modelValue).utc().format(this.dtFormat);
-      },
     },
   },
 };
